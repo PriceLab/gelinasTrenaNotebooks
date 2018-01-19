@@ -56,27 +56,16 @@ class Trena:
 
     def getFootprintsInRegion(self, display):
         payload = {"roi": self.getGenomicRegion()}
-        print("gfir 1")
-        print("current working directory: %s" % os.getcwd())
         msg = {'cmd': 'getFootprintsInRegion', 'status': 'request', 'callback': '', 'payload': payload}
-        print("gfir 2")
         self.trenaServer.send_string(json.dumps(msg))
-        print("gfir 3")
         response = json.loads(self.trenaServer.recv_string())
-        print("gfir 4")
         payload = response["payload"]
-        print("gfir 5")
 
         tblAsList = payload["tbl"]
-        print("gfir 6")
         regTbl = self.dataFrameFrom3partList(tblAsList)
-        print("gfir 7")
         regTbl.key = payload["key"]
-        print("gfir 8")
         if(display):
-           print("about to call self.tv.addBedTrackFromDataFrame")
            self.tv.addBedTrackFromDataFrame(regTbl, "footprints", "EXPANDED", "blue")
-           print("gfir 9")
         return(regTbl)
 
     def displayFootprints(self, url):
@@ -105,8 +94,11 @@ class Trena:
         payload = response["payload"]
         return(payload);
 
-    def createGeneModel(self, targetGene,  solverNames, tbl_regRegions, tfMap, matrixName):
+    #def createGeneModel(self, targetGene,  solverNames, tbl_regRegions, tfMap, matrixName):
+    def createGeneModel(self, targetGene, tbl_regRegions, matrixName):
 
+        solverNames =  ["lasso", "lassopv", "pearson", "randomForest", "ridge", "spearman"]
+        tfMap = "MotifDb"
         payload = {'targetGene': targetGene,
                    'solverNames': solverNames,
                    'tblRegulatoryRegionsCacheKey': tbl_regRegions.key,   # used to look up in cache

@@ -108,6 +108,12 @@ processWellStructuredMessage <- function(msg)
       tbl.motifs$motifName <- sub("_hint_20", "", tbl.motifs$motifName)
       print(head(tbl.motifs))
 
+      if(! "shortMotif" %in% colnames(tbl.motifs)){
+          printf("--- adding shortMotif column to regulatory regions table")
+          tbl.motifs$shortMotif <-  unlist(lapply(strsplit((tbl.motifs$motifName), "-"),
+                                             function(tokens) tokens[length(tokens)]))
+          }
+
       tbl.motifs.tfs <- associateTranscriptionFactors(MotifDb, tbl.motifs, source=tfMap, expand.rows=FALSE)
       print(head(tbl.motifs.tfs))
 

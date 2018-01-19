@@ -1,10 +1,10 @@
 build:
-	docker build -t testgelinasnbserver .
+	docker build -t gelinas_skin_nbserver .
 
 bash:
-	docker run -ti --rm testgelinasnbserver bash
+	docker run -ti --rm gelinas_skin_nbserver bash
 
 shared:
-	docker volume create myTest
-	docker run -ti --rm -v myTest:/home/jovyan/sharedData testgelinasnbserver bash
+	docker volume create gelinasData
+	docker run -ti --rm -v gelinasData:/home/jovyan/sharedData gelinas_skin_nbserver bash
 
